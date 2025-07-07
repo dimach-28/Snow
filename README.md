@@ -1,4 +1,4 @@
-It was kind of boring so I decided to write a simple sketch of snow (snowflakes).
+I was bored so I decided to write a simple sketch of snowflakes for the new year. 
 
 The library is loved by all and very powerful  U8g2.
 
