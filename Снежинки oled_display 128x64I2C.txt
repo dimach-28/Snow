@@ -1,0 +1,50 @@
+// Powered by dimach_28
+// https://t.me/dimach28TG
+// https://t.me/+uLIiUd6ZvsExZWZi
+
+
+#include <Wire.h>
+#include <U8g2lib.h>
+
+// Инициализация дисплея
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);  // Используем аппаратное I2C
+
+// Параметры снега
+const int numSnowflakes = 100; // Количество снежинок
+int snowflakesX[numSnowflakes]; // Массив для хранения X-координат снежинок
+int snowflakesY[numSnowflakes]; // Массив для хранения Y-координат снежинок
+
+void setup() {
+  u8g2.begin();  // Инициализация дисплея
+
+  // Инициализация снежинок
+  for (int i = 0; i < numSnowflakes; i++) {
+    snowflakesX[i] = random(0, 128);  // Случайная позиция по оси X
+    snowflakesY[i] = random(0, 64);   // Случайная позиция по оси Y
+  }
+}
+
+void loop() {
+  u8g2.clearBuffer();  // Очищаем буфер
+
+  // Рисуем снежинки
+  for (int i = 0; i < numSnowflakes; i++) {
+    u8g2.drawPixel(snowflakesX[i], snowflakesY[i]);  // Рисуем снежинку
+  }
+
+  // Обновляем позиции снежинок
+  for (int i = 0; i < numSnowflakes; i++) {
+    snowflakesY[i]++;  // Снежинка падает вниз
+
+    // Если снежинка выходит за пределы экрана, сбрасываем её в верхнюю часть
+    if (snowflakesY[i] >= 64) {
+      snowflakesY[i] = 0;  // Сбрасываем на верх экрана
+      snowflakesX[i] = random(0, 128);  // Случайная позиция по оси X
+    }
+  }
+
+  // Отправляем буфер на экран
+  u8g2.sendBuffer();
+
+  delay(50);  // Задержка для плавности анимации
+}
